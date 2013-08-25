@@ -26,9 +26,9 @@ public class hSkyrim extends JavaPlugin {
 
     }
 
-    public static hSkyrim getInstance() {
+    /*public static hSkyrim getInstance() {
         return instance;
-    }
+    }*/
 
     public void onEnable() {
         createConfig();

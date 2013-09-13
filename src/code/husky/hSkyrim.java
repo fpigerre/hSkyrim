@@ -10,16 +10,20 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class hSkyrim extends JavaPlugin {
+
     public static Economy economy = null;
     YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/hSkyrim/config.yml"));
+
     List<String> blacksmiths = new ArrayList();
     List<String> assassins = new ArrayList();
     List<String> enchanters = new ArrayList();
     List<String> farmers = new ArrayList();
     List<String> thieves = new ArrayList();
     List<String> guards = new ArrayList();
+
     hCommands commands = new hCommands();
     hListener listener = new hListener();
+
     private hSkyrim instance;
 
     private hSkyrim() {
@@ -46,9 +50,12 @@ public class hSkyrim extends JavaPlugin {
             e.printStackTrace();
         }
     }
+
     public void createConfig() {
+
         boolean exists = new File("plugins/hSkyrim/config.yml").exists();
         if(!exists) {
+
             new File("plugins/hSkyrim").mkdir();
             config.options().header("hSkyrim, made by Husky!");
             config.set("Pluginheader", "[hSkyrim]");
@@ -60,6 +67,7 @@ public class hSkyrim extends JavaPlugin {
             config.set("classes.enchanters", enchanters);
             config.set("classes.assassins", assassins);
             config.set("classes.farmers", farmers);
+
             try {
                 config.save("plugins/hSkyrim/config.yml");
             } catch (IOException e) {
@@ -67,6 +75,7 @@ public class hSkyrim extends JavaPlugin {
             }
         }
     }
+
     private boolean setupEconomy()
     {
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);

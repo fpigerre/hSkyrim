@@ -3,6 +3,8 @@ package code.husky;
 import java.io.File;
 import java.util.List;
 
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,44 +13,48 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class hCommands implements CommandExecutor {
+
     hApi api = new hApi();
     YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/hSkyrim/config.yml"));
-    public boolean onCommand(CommandSender sender, Command command, String c, String[] args)  { 
+
+    public boolean onCommand(CommandSender sender, Command command, String c, String[] args) {
+
         Player p = (Player) sender;
         ChatColor red = ChatColor.RED;
+
         List<String> blacksmiths = config.getStringList("classes.blacksmiths");
         List<String> farmers = config.getStringList("classes.farmers");
         List<String> assassins = config.getStringList("classes.assassins");
         List<String> thieves = config.getStringList("classes.thieves");
         List<String> enchanters = config.getStringList("classes.enchanters");
         List<String> guards = config.getStringList("classes.guards");
+
         ChatColor aqua = ChatColor.AQUA;
-        if(c.equalsIgnoreCase("rp")) {
-            if(args.length == 0) {
+
+        if (c.equalsIgnoreCase("rp")) {
+            if (args.length == 0) {
                 p.sendMessage(red + "Please use '/rp help' for more info");
             } else {
-                if(args[0].equalsIgnoreCase("help")) {
-                    p.sendMessage(aqua + "/rp join <job> - sets you to that job");
-                    p.sendMessage(aqua + "/rp leave <job> - leaves the current job");
-                    p.sendMessage(aqua + "/rp jobhelp - gives help on your current job");
-                    p.sendMessage(aqua + "/killreq <player> - places a bounty on someone (cost = " + config.getInt("Default-bounty-limit" + ")"));
-                } else if(args[0].equalsIgnoreCase("join")) {
-                    String job = args[1];
-                    if(job.equalsIgnoreCase("blacksmith") || job.equalsIgnoreCase("assassin") || job.equalsIgnoreCase("thief") || job.equalsIgnoreCase("enchanter") || job.equalsIgnoreCase("farmer")) {
-                        api.setJob(p,job);
+                if (args[0].equalsIgnoreCase("help")) {
+                    api.displayHelp(p);
+                } else if (args[0].equalsIgnoreCase("join")) {
+                    String reqJob = args[1];
+                    if (reqJob.equalsIgnoreCase("blacksmith") || reqJob.equalsIgnoreCase("assassin") || reqJob.equalsIgnoreCase("thief") || reqJob.equalsIgnoreCase("enchanter") || reqJob.equalsIgnoreCase("farmer")) {
+                        api.setJob(p, reqJob);
                     }
-                } else if(args[0].equalsIgnoreCase("jobhelp")) {
-                    if(api.getJob(p) == "guard") {
-
-                    } else if(api.getJob(p) == "blacksmith") {
-
-                    } else if(api.getJob(p) == "enchanter") {
-
-                    } else if(api.getJob(p) == "thieves") {
-
-                    } else if(api.getJob(p) == "guard") {
-
-                    } 
+                } else if (args[0].equalsIgnoreCase("jobhelp")) {
+                    api.displayJobHelp(p);
+                } else if (args[0].equalsIgnoreCase("contract")) {
+                    if (api.getJob(p) != "assassin" && api.getJob(p) != "guard") {
+                        if (args[1] != null && args[2] != null) {
+                            Economy e = hSkyrim.getEconomy();
+                            if (e.has(p.getName(), config.getInt("Default-bounty-limit"))) {
+                                api.addContract(Bukkit.getPlayer(args[1]), args[2], config.getInt("Deafult-bounty-limit"));
+                            } else {
+                                p.sendMessage(ChatColor.GREEN + "[hSkyrim] You don't have enough money to create this contract!");
+                            }
+                        }
+                    }
                 }
             }
             return true;

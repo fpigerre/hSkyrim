@@ -21,6 +21,14 @@ public class hSkyrim extends JavaPlugin {
     List<String> thieves = new ArrayList();
     List<String> guards = new ArrayList();
 
+    List<String> imperial = new ArrayList();
+    List<String> khajit = new ArrayList();
+    List<String> argonian = new ArrayList();
+    List<String> highelf = new ArrayList();
+    List<String> darkelf = new ArrayList();
+    List<String> breton = new ArrayList();
+
+
     hCommands commands = new hCommands();
     hListener listener = new hListener();
 
@@ -59,14 +67,22 @@ public class hSkyrim extends JavaPlugin {
             new File("plugins/hSkyrim").mkdir();
             config.options().header("hSkyrim, made by Husky!");
             config.set("Pluginheader", "[hSkyrim]");
-            config.set("ChatFormat", "#job - #playername : #message");
+            config.set("ChatFormat", "#race - #job - #playername : #message");
             config.set("Default-bounty-limit", 250);
+
             config.set("classes.blacksmiths", blacksmiths);
             config.set("classes.guards", guards);
             config.set("classes.thieves", thieves);
             config.set("classes.enchanters", enchanters);
             config.set("classes.assassins", assassins);
             config.set("classes.farmers", farmers);
+
+            config.set("races.imperial", imperial);
+            config.set("races.khajit", khajit);
+            config.set("races.argonian", argonian);
+            config.set("races.highelf", highelf);
+            config.set("races.darkelf", darkelf);
+            config.set("races.breton", breton);
 
             try {
                 config.save("plugins/hSkyrim/config.yml");

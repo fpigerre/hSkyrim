@@ -59,7 +59,7 @@ public class hApi {
             p.sendMessage(ChatColor.RED + header + " Error: You already have a job");
         } else {
             p.sendMessage(ChatColor.GREEN + header + " Setting you to " + job + "...");
-            config.set(p.getName() + ".job", job);
+            config.set(p.getName() + ".classes", job);
             p.sendMessage(ChatColor.GREEN + header + " Done");
             try {
                 config.save("plugins/hSkyrim/config.yml");
@@ -208,6 +208,139 @@ public class hApi {
 
             default:
                 p.sendMessage(ChatColor.RED + "An error has occured! Please contact the developers of the hSkyrim plugin!");
+                break;
+        }
+    }
+
+    /**
+     * Displays information about a player's race, to a certain player
+     *
+     * @param p A Player
+     */
+    public void displayRaceHelp(Player p) {
+
+        switch (getRace(p)) {
+
+            case ("imperial"):
+                p.sendMessage(ChatColor.GREEN + "Natives of Cyrodiil, Imperials have proved to be shrewd diplomats and traders.");
+                p.sendMessage(ChatColor.GREEN + "They are skilled with combat and magic.");
+                p.sendMessage(ChatColor.GREEN + "Anywhere gold coins might be found, Imperials always seem to find a few ore.");
+                p.sendMessage(ChatColor.GREEN + "They can call upon the Voice of the Emperor to calm an enemy.");
+                break;
+
+            case ("khajit"):
+                p.sendMessage(ChatColor.GREEN + "Hailing from the province of Elsweyr, the Khajit are intelligent, quick and agile. ");
+                p.sendMessage(ChatColor.GREEN + "They make excellent thieves due to their natural stealthiness.");
+                p.sendMessage(ChatColor.GREEN + "All Khajit can see in the dark at will and have unarmed claw attacks.");
+                break;
+
+            case ("argonian"):
+                p.sendMessage(ChatColor.GREEN + "This reptilian race, well-suited for the treacherous swamps of their Black Marsh homeland, has developed a natural resistance to diseases and the ability to breathe underwater.");
+                p.sendMessage(ChatColor.GREEN + "They can call upon the Histskin to regenerate health very quickly.");
+                break;
+
+            case ("highelf"):
+                p.sendMessage(ChatColor.GREEN + "Also known as \"Altmer\" in their homeland of Summerset Isle, the high elves are the most strongly gifted in the arcane arts of all the races.");
+                p.sendMessage(ChatColor.GREEN + "They can call upon their Highborn power to regenerate Magicka quickly.");
+                break;
+
+            case ("darkelf"):
+                p.sendMessage(ChatColor.GREEN + "Also known as \"Dunmer\" in their homeland of Morrowind, dark elves are noted for their stealth and magic skills.");
+                p.sendMessage(ChatColor.GREEN + "They are naturally resistant to fire and can call upon their Ancestor's Wrath to surround themselves in fire.");
+                break;
+
+            case ("breton"):
+                p.sendMessage(ChatColor.GREEN + "In addition to their quick and perceptive grasp of spellcraft, even the humblest of High Rock's Bretons can boast a resistance to magic.");
+                p.sendMessage(ChatColor.GREEN + "Bretons call upon the Dragonskin power to absorb spells.");
+                break;
+
+            default:
+                p.sendMessage(ChatColor.RED + "An error has occured! Please contact the developers of the hSkyrim plugin!");
+                break;
+        }
+    }
+
+    /**
+     * Get's a player's race
+     *
+     * @param p A Player
+     * @return String The player's race
+     */
+    public String getRace(Player p) {
+
+        List<String> imperial = config.getStringList("races.imperial");
+        List<String> khajit = config.getStringList("races.khajit");
+        List<String> argonian = config.getStringList("races.argonian");
+        List<String> highelf = config.getStringList("races.highelf");
+        List<String> darkelf = config.getStringList("races.darkelf");
+        List<String> breton = config.getStringList("races.breton");
+
+        if (imperial.contains(p.getName())) {
+            return "imperial";
+        } else if (khajit.contains(p.getName())) {
+            return "khajit";
+        } else if (argonian.contains(p.getName())) {
+            return "argonian";
+        } else if (highelf.contains(p.getName())) {
+            return "highelf";
+        } else if (darkelf.contains(p.getName())) {
+            return "darkelf";
+        } else if (breton.contains(p.getName())) {
+            return "breton";
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Sets a player's race
+     *
+     * @param p    A Player
+     * @param race A race to set
+     */
+    public void setRace(Player p, String race) {
+        if (getJob(p) != null) {
+            p.sendMessage(ChatColor.RED + header + " Error: You can't change races!");
+        } else {
+            p.sendMessage(ChatColor.GREEN + header + " Setting you to " + race + "...");
+            config.set(p.getName() + ".races", race);
+            p.sendMessage(ChatColor.GREEN + header + " Done");
+            try {
+                config.save("plugins/hSkyrim/config.yml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Triggers a race defined power. The power is called according to a player's race.
+     *
+     * @param p A Player
+     */
+    public void callPower(Player p) {
+
+        switch (getRace(p)) {
+
+            case ("imperial"):
+                break;
+
+            case ("khajit"):
+                break;
+
+            case ("argonian"):
+                break;
+
+            case ("highelf"):
+                break;
+
+            case ("darkelf"):
+                break;
+
+            case ("breton"):
+                break;
+
+            default:
                 break;
         }
     }

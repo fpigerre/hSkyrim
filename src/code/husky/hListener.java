@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class hListener implements Listener {
 
@@ -26,8 +28,8 @@ public class hListener implements Listener {
     public void chat(PlayerChatEvent event) {
         String format = config.getString("ChatFormat");
         Player p = event.getPlayer();
-        if (api.getJob(p) != null) {
-            format = "[" + ChatColor.AQUA + api.getJob(p) + ChatColor.WHITE + "] " + event.getPlayer().getName() + " : " + event.getMessage();
+        if (api.getJob(p) != null && api.getRace(p) != null) {
+            format = "[" + ChatColor.AQUA + api.getRace(p) + " " + api.getJob(p) + ChatColor.WHITE + "] " + event.getPlayer().getName() + " : " + event.getMessage();
         } else {
             format = "[Commoner] " + ChatColor.GREEN + event.getPlayer().getName() + ChatColor.WHITE + " : " + event.getMessage();
         }
@@ -84,7 +86,7 @@ public class hListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        if (api.alreadyHasGuardBounty(p)) {
+        if (api.alreadyHasGuardBounty(p) && api.getJob(p) != "guard") {
             for (Player guards : Bukkit.getOnlinePlayers()) {
                 if (api.getJob(guards) == "guard") {
                     guards.sendMessage(ChatColor.GREEN + "[hSkyrim] " + p.getDisplayName() + " has a guard bounty! Kill them to receive the reward!");
@@ -92,4 +94,14 @@ public class hListener implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        if (event.getTo().getBlock().equals(Material.WATER)) {
+            if (api.getRace(event.getPlayer()).equals("argonian")) {
+                event.getPlayer().setRemainingAir(20);
+            }
+        }
+    }
+
 }

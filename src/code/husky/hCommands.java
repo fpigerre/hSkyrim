@@ -22,28 +22,28 @@ public class hCommands implements CommandExecutor {
         Player p = (Player) sender;
         ChatColor red = ChatColor.RED;
 
-        List<String> blacksmiths = config.getStringList("classes.blacksmiths");
-        List<String> farmers = config.getStringList("classes.farmers");
-        List<String> assassins = config.getStringList("classes.assassins");
-        List<String> thieves = config.getStringList("classes.thieves");
-        List<String> enchanters = config.getStringList("classes.enchanters");
-        List<String> guards = config.getStringList("classes.guards");
-
         ChatColor aqua = ChatColor.AQUA;
 
         if (c.equalsIgnoreCase("rp")) {
             if (args.length == 0) {
                 p.sendMessage(red + "Please use '/rp help' for more info");
             } else {
+
                 if (args[0].equalsIgnoreCase("help")) {
                     api.displayHelp(p);
+
                 } else if (args[0].equalsIgnoreCase("join")) {
                     String reqJob = args[1];
                     if (reqJob.equalsIgnoreCase("blacksmith") || reqJob.equalsIgnoreCase("assassin") || reqJob.equalsIgnoreCase("thief") || reqJob.equalsIgnoreCase("enchanter") || reqJob.equalsIgnoreCase("farmer")) {
                         api.setJob(p, reqJob);
                     }
+
                 } else if (args[0].equalsIgnoreCase("jobhelp")) {
                     api.displayJobHelp(p);
+
+                } else if (args[0].equalsIgnoreCase("racehelp")) {
+                    api.displayRaceHelp(p);
+
                 } else if (args[0].equalsIgnoreCase("contract")) {
                     if (api.getJob(p) != "assassin" && api.getJob(p) != "guard") {
                         if (args[1] != null && args[2] != null) {

@@ -1,4 +1,4 @@
-package code.husky;
+package code.husky.hSkyrim;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -100,6 +100,19 @@ public class hListener implements Listener {
         if (event.getTo().getBlock().equals(Material.WATER)) {
             if (api.getRace(event.getPlayer()).equals("argonian")) {
                 event.getPlayer().setRemainingAir(20);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player p = (Player) event.getEntity();
+
+            if (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) || event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) {
+                if (api.getRace(p).equals("darkelf")) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

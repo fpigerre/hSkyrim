@@ -1,7 +1,6 @@
-package code.husky;
+package code.husky.hSkyrim;
 
 import java.io.File;
-import java.util.List;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

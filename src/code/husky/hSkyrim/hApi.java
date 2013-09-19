@@ -1,4 +1,4 @@
-package code.husky;
+package code.husky.hSkyrim;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,8 +7,13 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class hApi {
 
@@ -323,25 +328,100 @@ public class hApi {
         switch (getRace(p)) {
 
             case ("imperial"):
+                callImperialPower(p);
                 break;
 
             case ("khajit"):
+                callKhajitPower(p);
                 break;
 
             case ("argonian"):
+                callArgonianPower(p);
                 break;
 
             case ("highelf"):
+                callHighElfPower(p);
                 break;
 
             case ("darkelf"):
+                callDarkElfPower(p);
                 break;
 
             case ("breton"):
+                callBretonPower(p);
                 break;
 
             default:
+                p.sendMessage(ChatColor.GREEN + "You don't seem to have a race!");
                 break;
         }
+    }
+
+    /**
+     *  Calls the power allocated to members of the Imperial race
+     *
+     * @param p A Player
+     */
+    public void callImperialPower(Player p) {
+        p.setNoDamageTicks(600);
+        p.sendMessage(ChatColor.GREEN + "You called upon the Voice of the Emeperor to stop players attacking you!");
+    }
+
+    /**
+     *  Calls the power allocated to members of the Khajit race
+     *
+     * @param p A Player
+     */
+    public void callKhajitPower(Player p) {
+        p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 20, 1));
+        p.sendMessage(ChatColor.GREEN + "Your Khajit heritage allows you to see in the dark...");
+    }
+
+    /**
+     *  Calls the power allocated to members of the Argonian race
+     *
+     * @param p A Player
+     */
+    public void callArgonianPower(Player p) {
+        p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3 * 20, 1));
+        p.removePotionEffect(PotionEffectType.POISON);
+        p.removePotionEffect(PotionEffectType.WEAKNESS);
+        final long waitUntil = System.currentTimeMillis() + 24000;
+
+        while (System.currentTimeMillis() < waitUntil && System.currentTimeMillis() > waitUntil - 23997) {
+            p.removePotionEffect(PotionEffectType.REGENERATION);
+        }
+
+        p.sendMessage(ChatColor.GREEN + "The Histskin has chosen to heal you!");
+    }
+
+    /**
+     *  Calls the power allocated to members of the High Elf race
+     *
+     * @param p A Player
+     */
+    public void callHighElfPower(Player p) {
+        p.sendMessage(ChatColor.GREEN + "You called upon your power of HighBorn to regenerate Magicka!");
+    }
+
+    /**
+     *  Calls the power allocated to members of the Dark Elf race
+     *  This method contains a deprecated method (p.playEffect())
+     *
+     * @param p A Player
+     */
+    public void callDarkElfPower(Player p) {
+        p.playEffect(p.getLocation(), Effect.MOBSPAWNER_FLAMES, 10);
+        p.setFireTicks(400);
+        p.sendMessage(ChatColor.GREEN + "You have called upon the Ancestor's Wrath to surround you in fire!");
+    }
+
+    /**
+     *  Calls the power allocated to members of the Breton race
+     *
+     * @param p A Player
+     */
+    public void callBretonPower(Player p) {
+        p.sendMessage(ChatColor.GREEN + "You have called upon the Dragonskin to absorb spells!");
     }
 }

@@ -4,8 +4,9 @@
     <groupId>hSkyrim</groupId>
     <artifactId>hSkyrim</artifactId>
     <name>hSkyrim ${project.version}</name>
-    <version>1.0</version>
     <description>A skyrim roleplay plugin</description>
+
+    <version>1.0</version>
 
     <issueManagement>
         <system>GitHub</system>
@@ -43,7 +44,16 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<main.class>code.husky.hskyrim.hSkyrim</main.class>
     </properties>
+	
+	<scm>
+        <tag>HEAD</tag>
+        <connection>scm:git:git://github.com/psgs/hSkyrim.git</connection>
+        <url>https://github.com/psgs/hSkyrim</url>
+        <developerConnection>scm:git:ssh://git@github.com:psgs/hSkyrim.git</developerConnection>
+    </scm>
+
     <repositories>
         <repository>
             <id>project.local</id>
